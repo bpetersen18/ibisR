@@ -1,4 +1,4 @@
-# get_output
+# get_yearly_output
 # By: Bryan Petersen
 # Date: 12.07.21
 
