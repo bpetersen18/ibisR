@@ -33,7 +33,8 @@ get_daily_output <- function(filepath, ncvar, pft = NULL, spatial = F, location_
   
   # Put into a tibble
   tbl <- tibble(date = date_vector,
-                variable = vector)
+                variable_name = ncvar,
+                variable_data = vector)
   
   # Return tibble
   return(tbl)
