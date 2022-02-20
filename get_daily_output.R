@@ -2,7 +2,7 @@
 # By: Bryan Petersen
 # Date: 02.19.22
 
-get_daily_output <- function(filepath, ncvar, pft = NULL, spatial = F, location_name = NULL){
+get_daily_output <- function(filepath, ncvar, pft = NULL, average_spatial = F, location_name = NULL){
   # Load libraries
   require(tidyverse)
   require(ncdf4)
@@ -17,13 +17,13 @@ get_daily_output <- function(filepath, ncvar, pft = NULL, spatial = F, location_
   # If the variable doesn't have a pft dimension
   if (is.null(pft)){
     # Average over the spatial dimension
-    if (spatial){
+    if (average_spatial){
       # Get the number of dimensions
       ndim <- length(dim(matrix))
       if (ndim != 1){
-        vector <- apply(matrix, MARGIN = ndim, FUN = mean, na.rm = T)
+        data_vector <- apply(matrix, MARGIN = ndim, FUN = mean, na.rm = T)
       } else{
-        vector <- matrix
+        data_vector <- matrix
       }
     }
   }
@@ -34,7 +34,7 @@ get_daily_output <- function(filepath, ncvar, pft = NULL, spatial = F, location_
   # Put into a tibble
   tbl <- tibble(date = date_vector,
                 variable_name = ncvar,
-                variable_data = vector)
+                variable_data = data_vector)
   
   # Return tibble
   return(tbl)
