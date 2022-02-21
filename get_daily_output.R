@@ -32,7 +32,7 @@ get_daily_output <- function(filepath, ncvar, pft = NULL, average_spatial = T, l
   date_vector <- as_date(ncvar_get(ncid, varid = "time"), origin = ymd("1749-12-31"))
   
   # Put into a tibble
-  tbl <- tibble(date = date_vector,
+  tbl <- tibble(date = as.character(date_vector),
                 variable_name = ncvar,
                 variable_data = data_vector)
   
