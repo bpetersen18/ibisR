@@ -2,7 +2,7 @@
 # By: Bryan Petersen
 # Date: 02.20.22
 
-create_weather_plot <- function(filepath){
+create_weather_plot <- function(model_path){
   # Load libraries
   require(tidyverse)
   
@@ -11,11 +11,11 @@ create_weather_plot <- function(filepath){
   
   # Get daily maximum and minimum temperature
   ncvars <- c("tmax", "tmin")
-  temp_tbl <- map_dfr(ncvars, ~get_daily_output(filepath, ., average_spatial = T)) %>% 
+  temp_tbl <- map_dfr(ncvars, ~get_daily_output(paste0(model_path, "/output/daily/weather.nc"), ., average_spatial = T)) %>% 
     mutate(date = ymd(date), variable_data = variable_data - 273.15)
   
   # Get daily precipitation
-  precip_tbl <- get_daily_output(filepath, "precip", average_spatial = T) %>% 
+  precip_tbl <- get_daily_output(paste0(model_path, "/output/daily/weather.nc"), "precip", average_spatial = T) %>% 
     mutate(date = ymd(date))
   
   # Set limits for graph
