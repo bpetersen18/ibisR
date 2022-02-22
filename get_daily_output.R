@@ -38,6 +38,8 @@ get_daily_output <- function(filepath, ncvar, pft = NULL, average_spatial = T, l
     } else{
       stop("Dimensions of variable are weird")
     }
+    # Get the number of dimensions for new matrix
+    ndim <- length(dim(matrix))
     # Average over the spatial dimension
     if (average_spatial){
       if (ndim != 1){
