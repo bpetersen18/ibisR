@@ -14,12 +14,32 @@ get_daily_output <- function(filepath, ncvar, pft = NULL, average_spatial = T, l
   # Read variable of interest
   matrix <- ncvar_get(ncid, varid = ncvar)
   
+  # Get the number of dimensions
+  ndim <- length(dim(matrix))
+  
   # If the variable doesn't have a pft dimension
   if (is.null(pft)){
     # Average over the spatial dimension
     if (average_spatial){
-      # Get the number of dimensions
-      ndim <- length(dim(matrix))
+      if (ndim != 1){
+        data_vector <- apply(matrix, MARGIN = ndim, FUN = mean, na.rm = T)
+      } else{
+        data_vector <- matrix
+      }
+    }
+  }else{
+    # Get specific pft
+    if (ndim == 2){
+      matrix <- matrix[pft,]
+    } else if (ndim == 3){
+      matrix <- matrix[,pft,]
+    } else if (ndim == 4){
+      matrix <- matrix[,,pft,]
+    } else{
+      stop("Dimensions of variable are weird")
+    }
+    # Average over the spatial dimension
+    if (average_spatial){
       if (ndim != 1){
         data_vector <- apply(matrix, MARGIN = ndim, FUN = mean, na.rm = T)
       } else{
