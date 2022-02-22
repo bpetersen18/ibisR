@@ -1,8 +1,9 @@
+#' @export
 # run_ibis
 # By: Bryan Petersen
 # Date: 12.05.21
 
-run_ibis <- function(path, compile_flag = F, copy_output_path = NULL, 
+run_ibis <- function(model_path, compile_flag = F, copy_output_path = NULL, 
                      copy_restart_path = NULL){
   
   # Load libraries
