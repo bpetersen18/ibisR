@@ -25,9 +25,12 @@ create_weather_plot <- function(model_path){
   a <- ylim.prim[1] - b*ylim.sec[1]
   
   # Create plot
-  p1 <- ggplot() + 
-    geom_col(data = precip_tbl, mapping = aes(x = date, y = variable_data)) +
-    geom_line(data = temp_tbl, mapping = aes(x = date, y = a + variable_data*b, color = variable_name)) +
+  p1 <- ggplot(data = temp_tbl, mapping = aes(x = date, y = a + variable_data*b, group = variable_name,
+                                              color = variable_name, 
+                                              text = paste0("Temp: ", round(variable_data, digits = 1), " degC \n",
+                                                            "Date: ", date))) + 
+    geom_line() + 
+    geom_col(data = precip_tbl, mapping = aes(x = date, y = variable_data), inherit.aes = F) +
     scale_y_continuous(name = "Precipitation (mm)",
                        sec.axis = sec_axis(~ (. - a)/b, name = "Temperature (degC)")) +
     labs(x = "Date", color = "Temperature") +
