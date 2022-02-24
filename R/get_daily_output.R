@@ -7,10 +7,6 @@
 #' 
 #' @export
 
-# get_daily_output
-# By: Bryan Petersen
-# Date: 02.19.22
-
 get_daily_output <- function(filepath, ncvar, pft = NULL, average_spatial = T){
   # Load libraries
   requireNamespace(tidyverse)
