@@ -1,13 +1,16 @@
+#' Run Agro-IBIS and copy model output and restart files
+#' 
+#' @param model_path Path to the model directory.
+#' @param compile_flag If set to TRUE, it will compile the model before running.
+#' @param copy_output_path Path to copy the output directory.
+#' @param copy_restart_path Path to copy the restart directory.
+#' 
 #' @export
-# run_ibis
-# By: Bryan Petersen
-# Date: 12.05.21
-
 run_ibis <- function(model_path, compile_flag = F, copy_output_path = NULL, 
                      copy_restart_path = NULL){
   
   # Load libraries
-  require(stringr)
+  requireNamespace(stringr)
   
   # Get working directory
   wkdir <- getwd()

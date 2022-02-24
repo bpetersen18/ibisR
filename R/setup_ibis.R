@@ -1,9 +1,34 @@
-# setup_ibis
-# By: Bryan Petersen
-# Date: 12.05.21
+#' Set the ibis.infile
+#' 
+#' @param model_path Path to the model directory.
+#' @param file Name of the ibis_flag.infile
+#' @param irestart 0: not a restart run  1: restart run
+#' @param irstyear actual calendar year of restart run
+#' @param iyear0 initial year of simulation (don't change for restart)
+#' @param nrun number of years in this simulation (change for restart)
+#' @param soilcspin 0: no soil spinup, 1: acceleration procedure used
+#' @param flg_wrestart 1(default): write restart files  0: no restart files
+#' @param iyearout 0: no yearly output, 1: yearly output   2: yearly output,  in a yearly basis
+#' @param imonthout 0: no monthly output, 1: monthly output 2: monthly output, in a yearly basis
+#' @param idailyout 0: no daily output, 1: daily output
+#' @param ihourlyout 0: no hourly output, 1: hourly output
+#' @param isimveg 0: static veg, 1: dynamic veg, 2: dynamic veg-cold start
+#' @param nstress 0: no nitrogen stress, 1: apply nitrogen stress
+#' @param imiscanthus 0: miscanthus not grown 1: miscanthus grown everywhere
+#' @param irotation 0: none -- 1: w. wheat/fallow -- 2: corn/soy -- 3: corn/corn/soy -- 4: soy/w. wheat/corn -- 5: soy/corn (opposite of 2) -- 6: biomass sorghum/soybean
+#' @param iholdsoiln 0: doesn't save soil inorganic N from restart 1: save inorganic soil N
+#' @param co2init initial co2 concentration in mol/mol (ex: 0.000400)
+#' @param snorth northern latitude for subsetting in/output
+#' @param ssouth southern latitude for subsetting in/output
+#' @param swest western longitude for subsetting in/output
+#' @param seast eastern longitude for subsetting in/output
+#' 
+#' @return Writes out to ibis.infile 
+#' 
+#' @export
 
-setup_ibis <- function(file = "ibis_flag.infile", path, irestart = 1,
-                       irstyear, iyear0 = 1750, nrun, soilcspin = 0,
+setup_ibis <- function(model_path, file = "ibis_flag.infile", irestart = 1,
+                       irstyear, iyear0 = 1751, nrun, soilcspin = 0,
                        flg_wrestart = 1, iyearout = 1, imonthout = 0,
                        idailyout = 0, ihourlyout = 0, isimveg, 
                        nstress = 1, imiscanthus0, irotation, iholdsoiln = 1,
@@ -13,7 +38,7 @@ setup_ibis <- function(file = "ibis_flag.infile", path, irestart = 1,
   wkdir <- getwd()
   
   # Set working directory
-  setwd(path)
+  setwd(model_path)
   
   # Read flag file
   flag_lines <- readLines(file)
