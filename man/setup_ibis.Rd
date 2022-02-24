@@ -75,7 +75,7 @@ setup_ibis(
 \item{imiscanthus}{0: miscanthus not grown 1: miscanthus grown everywhere}
 }
 \value{
-ibis.infile
+Writes out to ibis.infile
 }
 \description{
 Set the ibis.infile
