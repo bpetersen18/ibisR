@@ -32,7 +32,8 @@ leveldim <- ncdim_def("level", "unitless", 1)
 # Define variables
 dlname <- "Planting Date"
 date_def <- ncvar_def("planting.date", "Julian day", list(londim, latdim, leveldim, timedim),
-                      longname = dlname, prec = "integer")
+  longname = dlname, prec = "integer"
+)
 
 # Create NetCDF file and put arrays
 ncout1 <- nc_create("/Volumes/lab_ssd/gridmet/management/planting_date_average.nc", list(date_def))

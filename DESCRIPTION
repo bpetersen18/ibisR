@@ -16,7 +16,12 @@ Imports:
         tidyverse,
         ncdf4,
         lubridate,
-        ncdump
+        ncdump,
+        reshape2,
+        gapminder,
+        htmlwidgets,
+        patchwork,
+        plotly
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

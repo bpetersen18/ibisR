@@ -1,41 +1,53 @@
-# create_weather_plot
-# By: Bryan Petersen
-# Date: 02.20.22
+#' @title Creates a plot that shows daily max and min temperature and precipitation
+#'
+#' @name create_weather_plot
+#'
+#' @param model_path Path to the model directory
+#'
+#' @return A ggplot object
+#' @author Bryan Petersen - bryan20@iastate.edu
+#'
+#' @export
 
-create_weather_plot <- function(model_path){
+create_weather_plot <- function(model_path) {
   # Load libraries
-  require(tidyverse)
-  
+  requireNamespace(tidyverse)
+
   # Source functions
   source("get_daily_output.R")
-  
+
   # Get daily maximum and minimum temperature
   ncvars <- c("tmax", "tmin")
-  temp_tbl <- map_dfr(ncvars, ~get_daily_output(paste0(model_path, "/output/daily/weather.nc"), ., average_spatial = T)) %>% 
+  temp_tbl <- map_dfr(ncvars, ~ get_daily_output(paste0(model_path, "/output/daily/weather.nc"), ., average_spatial = T)) %>%
     mutate(date = ymd(date), variable_data = variable_data - 273.15)
-  
+
   # Get daily precipitation
-  precip_tbl <- get_daily_output(paste0(model_path, "/output/daily/weather.nc"), "precip", average_spatial = T) %>% 
+  precip_tbl <- get_daily_output(paste0(model_path, "/output/daily/weather.nc"), "precip", average_spatial = T) %>%
     mutate(date = ymd(date))
-  
+
   # Set limits for graph
   ylim.sec <- c(min(temp_tbl$variable_data), max(temp_tbl$variable_data))
   ylim.prim <- c(0, max(precip_tbl$variable_data))
-  b <- diff(ylim.prim)/diff(ylim.sec)
-  a <- ylim.prim[1] - b*ylim.sec[1]
-  
+  b <- diff(ylim.prim) / diff(ylim.sec)
+  a <- ylim.prim[1] - b * ylim.sec[1]
+
   # Create plot
-  p1 <- ggplot(data = temp_tbl, mapping = aes(x = date, y = a + variable_data*b, group = variable_name,
-                                              color = variable_name, 
-                                              text = paste0("Temp: ", round(variable_data, digits = 1), " degC \n",
-                                                            "Date: ", date))) + 
-    geom_line() + 
+  p1 <- ggplot(data = temp_tbl, mapping = aes(
+    x = date, y = a + variable_data * b, group = variable_name,
+    color = variable_name,
+    text = paste0(
+      "Temp: ", round(variable_data, digits = 1), " degC \n",
+      "Date: ", date
+    )
+  )) +
+    geom_line() +
     geom_col(data = precip_tbl, mapping = aes(x = date, y = variable_data), inherit.aes = F) +
-    scale_y_continuous(name = "Precipitation (mm)",
-                       sec.axis = sec_axis(~ (. - a)/b, name = "Temperature (degC)")) +
+    scale_y_continuous(
+      name = "Precipitation (mm)",
+      sec.axis = sec_axis(~ (. - a) / b, name = "Temperature (degC)")
+    ) +
     labs(x = "Date", color = "Temperature") +
     theme_classic()
-  
+
   return(p1)
-  
 }
