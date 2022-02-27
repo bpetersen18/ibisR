@@ -18,7 +18,7 @@ create_diagnostic_plots <- function(model_path, create_interactive = F, save_dir
   # Get plai data
   plai_tbl <- ibisR::get_daily_output(paste0(model_path, "/output/daily/plai.nc"), "plai",
                                pft = 16, average_spatial = T) %>% 
-    dplyr::mutate(date = ymd(date))
+    dplyr::mutate(date = lubridate::ymd(date))
   
   # Plot plai data
   plai_plt <- ibisR::create_ibis_ts_plot(plai_tbl)
@@ -26,7 +26,7 @@ create_diagnostic_plots <- function(model_path, create_interactive = F, save_dir
   # Get adnpp data
   adnpp_tbl <- ibisR::get_daily_output(paste0(model_path, "/output/daily/adnpp.nc"), "adnpp",
                             pft = 16, average_spatial = T) %>% 
-    dplyr::mutate(date = ymd(date))
+    dplyr::mutate(date = lubridate::ymd(date))
   
   # Plot adnpp data
   adnpp_plt <- ibisR::create_ibis_ts_plot(adnpp_tbl)
