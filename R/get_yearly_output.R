@@ -1,53 +1,61 @@
-# get_yearly_output
-# By: Bryan Petersen
-# Date: 12.07.21
+#' @title Gets yearly output and puts it into a tibble for analysis or plotting
+#'
+#' @name get_yearly_output
+#'
+#' @param filepath Path to the daily netCDF file
+#' @param ncvar Name of variable of interest
+#' @param pft Select the pft of interest. The default is set to NULL
+#' @param average_spatial If set equal to false, the variable is not averaged over space
+#' 
+#' @author Bryan Petersen - bryan20@iastate.edu
+#'
+#' @export
 
-get_yearly_output <- function(filepath, ncvar, is.miscanthus = T, location = NULL) {
-
-  # Load libraries
-  require(tidyverse)
-  require(ncdf4)
-  require(lubridate)
-
+get_yearly_output <- function(filepath, ncvar, pft = NULL, average_spatial = T) {
   # Open NetCDF file
-  ncid <- nc_open(filepath)
-
+  ncid <- ncdf4::nc_open(filepath)
+  
   # Read variable of interest
-  matrix <- ncvar_get(ncid, varid = ncvar)
-  if (length(dim(matrix)) == 2) {
-    vector <- matrix[16, ]
-  } else if (length(dim(matrix)) == 3) {
-    matrix <- matrix[, 16, ]
-    vector <- colMeans(matrix, na.rm = T)
-  } else {
-    matrix <- matrix[, , 16, ]
-    matrix <- colMeans(matrix, na.rm = T)
-    vector <- colMeans(matrix, na.rm = T)
-  }
-
+  matrix <- ncdf4::ncvar_get(ncid, varid = ncvar, collapse_degen = F)
+  
+  # Read lat and lon
+  lon_vector <- ncdf4::ncvar_get(ncid, varid = "longitude")
+  lat_vector <- ncdf4::ncvar_get(ncid, varid = "latitude")
+  
   # Read time vector
-  year_vector <- year(as_date(ncvar_get(ncid, varid = "time"), origin = ymd("1749-12-31")))
-
-  if (is.miscanthus == T) {
-    # Calculate stand age if simulating miscanthus
-    stand_age <- 1:length(year_vector)
-
-    # Compile to dataframe
-    df <- tibble(
-      location = location,
-      year = year_vector,
-      stand_age = stand_age,
-      variable = vector
-    )
-    colnames(df)[4] <- ncvar
-  } else {
-    # Compile to dataframe
-    df <- tibble(
-      location = location,
-      year = year_vector,
-      variable = vector
-    )
-    colnames(df)[4] <- ncvar
+  date_vector <- as.character(lubridate::as_date(ncdf4::ncvar_get(ncid, varid = "time"), origin = lubridtate::ymd("1749-12-31")))
+  
+  # Get the number of dimensions
+  ndim <- length(dim(matrix))
+  
+  # Get specific pft and adjust dimensions
+  if (!is.null(pft)) {
+    if (ndim == 4) {
+      matrix <- matrix[, , pft, ]
+    } else {
+      stop("Dimensions of variable are weird")
+    }
   }
-  return(df)
+  
+  # Name the dimensions
+  dimnames(matrix) <- list(lon_vector, lat_vector, date_vector)
+  
+  if (average_spatial) {
+    # Average over the spatial dimension
+    data_vector <- apply(matrix, MARGIN = 3, FUN = mean, na.rm = T)
+    
+    # Put into a tibble
+    tbl <- dplyr::tibble(
+      date = as.character(date_vector),
+      variable_name = ncvar,
+      variable_data = data_vector
+    )
+  } else {
+    tbl <- reshape2::melt(matrix, varnames = names(dimnames(matrix)), value.name = "variable_data") %>%
+      dplyr::rename("longitude" = "Var1", "latitude" = "Var2", "date" = "Var3") %>%
+      dplyr::mutate(variable_name = ncvar)
+  }
+  
+  # Return tibble
+  return(tbl)
 }

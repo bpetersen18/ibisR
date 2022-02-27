@@ -1,5 +1,5 @@
 Package: ibisR
-Title: Runs Agro-IBS and Plots Output
+Title: Runs Agro-IBS and plots output
 Version: 0.0.0.9000
 Authors@R: 
     person("Bryan", "Petersen", email = "bryan20@iastate.edu",
@@ -12,16 +12,16 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports:
-        stringr,
-        tidyverse,
-        ncdf4,
-        lubridate,
-        ncdump,
-        reshape2,
-        gapminder,
+        dplyr,
+        ggplot2,
         htmlwidgets,
+        lubridate,
+        ncdf4,
+        ncdump,
         patchwork,
-        plotly
+        plotly,
+        reshape2,
+        stringr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

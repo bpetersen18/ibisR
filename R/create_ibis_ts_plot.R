@@ -1,21 +1,23 @@
-# create_ibis_ts_plot
-# By: Bryan Petersen
-# Date: 02.21.22
-# Purpose: Creates a timeseries plot of the output from *output.R functions
+#' @title Creates a general timeseries plot from AgroIBIS output.
+#' 
+#' @name create_ibis_ts_plot
+#' 
+#' @param data_tbl Output from get_*_output functions
+#' 
+#' @return A ggplot object
+#' 
+#' @author Bryan Petersen - bryan20@iastate.edu
+#' @export
 
 create_ibis_ts_plot <- function(data_tbl) {
-  # Load libraries
-  require(tidyverse)
-  require(lubridate)
-
   # Convert date from a character to a date
   data_tbl <- data_tbl %>%
-    mutate(date = ymd(date))
+    dplyr::mutate(date = lubridate::ymd(date))
 
   # Plot
-  p1 <- ggplot(data = data_tbl, mapping = aes(x = date, y = variable_data)) +
-    geom_line() +
-    labs(x = "Date", y = paste0(unique(data_tbl$variable_name)))
+  p1 <- ggplot2::ggplot(data = data_tbl, mapping = ggplot2::aes(x = date, y = variable_data)) +
+    ggplot2::geom_line() +
+    ggplot2::labs(x = "Date", y = paste0(unique(data_tbl$variable_name)))
 
   return(p1)
 }

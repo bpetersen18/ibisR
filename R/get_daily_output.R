@@ -1,31 +1,29 @@
-#' Gets daily output and puts it into a tibble for analysis or plotting
+#' @title Gets daily output and puts it into a tibble for analysis or plotting
+#'
+#' @name get_daily_output
 #'
 #' @param filepath Path to the daily netCDF file
 #' @param ncvar Name of variable of interest
 #' @param pft Select the pft of interest. The default is set to NULL
 #' @param average_spatial If set equal to false, the variable is not averaged over space
+#' 
+#' @author Bryan Petersen - bryan20@iastate.edu
 #'
 #' @export
 
 get_daily_output <- function(filepath, ncvar, pft = NULL, average_spatial = T) {
-  # Load libraries
-  requireNamespace(tidyverse)
-  requireNamespace(ncdf4)
-  requireNamespace(lubridate)
-  requireNamespace(reshape2)
-
   # Open NetCDF file
-  ncid <- nc_open(filepath)
+  ncid <- ncdf4::nc_open(filepath)
 
   # Read variable of interest
-  matrix <- ncvar_get(ncid, varid = ncvar, collapse_degen = F)
+  matrix <- ncdf4::ncvar_get(ncid, varid = ncvar, collapse_degen = F)
 
   # Read lat and lon
-  lon_vector <- ncvar_get(ncid, varid = "longitude")
-  lat_vector <- ncvar_get(ncid, varid = "latitude")
+  lon_vector <- ncdf4::ncvar_get(ncid, varid = "longitude")
+  lat_vector <- ncdf4::ncvar_get(ncid, varid = "latitude")
 
   # Read time vector
-  date_vector <- as.character(as_date(ncvar_get(ncid, varid = "time"), origin = ymd("1749-12-31")))
+  date_vector <- as.character(lubridate::as_date(ncdf4::ncvar_get(ncid, varid = "time"), origin = lubridtate::ymd("1749-12-31")))
 
   # Get the number of dimensions
   ndim <- length(dim(matrix))
@@ -47,15 +45,15 @@ get_daily_output <- function(filepath, ncvar, pft = NULL, average_spatial = T) {
     data_vector <- apply(matrix, MARGIN = 3, FUN = mean, na.rm = T)
 
     # Put into a tibble
-    tbl <- tibble(
+    tbl <- dplyr::tibble(
       date = as.character(date_vector),
       variable_name = ncvar,
       variable_data = data_vector
     )
   } else {
-    tbl <- melt(matrix, varnames = names(dimnames(matrix)), value.name = "variable_data") %>%
-      rename("longitude" = "Var1", "latitude" = "Var2", "date" = "Var3") %>%
-      mutate(variable_name = ncvar)
+    tbl <- reshape2::melt(matrix, varnames = names(dimnames(matrix)), value.name = "variable_data") %>%
+      dplyr::rename("longitude" = "Var1", "latitude" = "Var2", "date" = "Var3") %>%
+      dplyr::mutate(variable_name = ncvar)
   }
 
   # Return tibble

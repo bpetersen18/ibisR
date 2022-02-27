@@ -1,4 +1,4 @@
-#' Set the ibis.infile
+#' @title Set the ibis.infile
 #'
 #' @param model_path Path to the model directory.
 #' @param file Name of the ibis_flag.infile
@@ -24,14 +24,16 @@
 #' @param seast eastern longitude for subsetting in/output
 #'
 #' @return Writes out to ibis.infile
+#' 
+#' @author Bryan Petersen - bryan20@iastate.edu
 #'
 #' @export
 
-setup_ibis <- function(model_path, file = "ibis_flag.infile", irestart = 1,
-                       irstyear, iyear0 = 1751, nrun, soilcspin = 0,
-                       flg_wrestart = 1, iyearout = 1, imonthout = 0,
-                       idailyout = 0, ihourlyout = 0, isimveg,
-                       nstress = 1, imiscanthus0, irotation, iholdsoiln = 1,
+setup_ibis <- function(model_path, file = "ibis_flag.infile", irestart,
+                       irstyear, iyear0 = 1751, nrun, soilcspin,
+                       flg_wrestart, iyearout, imonthout,
+                       idailyout, ihourlyout, isimveg,
+                       nstress, imiscanthus0, irotation, iholdsoiln,
                        co2init, snorth, ssouth, swest, seast) {
 
   # Get working directory

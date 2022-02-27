@@ -10,20 +10,15 @@
 #' @export
 
 create_weather_plot <- function(model_path) {
-  # Load libraries
-  requireNamespace(tidyverse)
-
-  # Source functions
-  source("get_daily_output.R")
 
   # Get daily maximum and minimum temperature
   ncvars <- c("tmax", "tmin")
-  temp_tbl <- map_dfr(ncvars, ~ get_daily_output(paste0(model_path, "/output/daily/weather.nc"), ., average_spatial = T)) %>%
-    mutate(date = ymd(date), variable_data = variable_data - 273.15)
+  temp_tbl <- purrr::map_dfr(ncvars, ~ ibisR::get_daily_output(paste0(model_path, "/output/daily/weather.nc"), ., average_spatial = T)) %>%
+    dplyr::mutate(date = lubridate::ymd(date), variable_data = variable_data - 273.15)
 
   # Get daily precipitation
-  precip_tbl <- get_daily_output(paste0(model_path, "/output/daily/weather.nc"), "precip", average_spatial = T) %>%
-    mutate(date = ymd(date))
+  precip_tbl <- ibisR::get_daily_output(paste0(model_path, "/output/daily/weather.nc"), "precip", average_spatial = T) %>%
+    dplyr::mutate(date = lubridate::ymd(date))
 
   # Set limits for graph
   ylim.sec <- c(min(temp_tbl$variable_data), max(temp_tbl$variable_data))
@@ -32,7 +27,7 @@ create_weather_plot <- function(model_path) {
   a <- ylim.prim[1] - b * ylim.sec[1]
 
   # Create plot
-  p1 <- ggplot(data = temp_tbl, mapping = aes(
+  p1 <- ggplot2::ggplot(data = temp_tbl, mapping = ggplot2::aes(
     x = date, y = a + variable_data * b, group = variable_name,
     color = variable_name,
     text = paste0(
@@ -40,14 +35,14 @@ create_weather_plot <- function(model_path) {
       "Date: ", date
     )
   )) +
-    geom_line() +
-    geom_col(data = precip_tbl, mapping = aes(x = date, y = variable_data), inherit.aes = F) +
-    scale_y_continuous(
+    ggplot2::geom_line() +
+    ggplot2::geom_col(data = precip_tbl, mapping = ggplot2::aes(x = date, y = variable_data), inherit.aes = F) +
+    ggplot2::scale_y_continuous(
       name = "Precipitation (mm)",
-      sec.axis = sec_axis(~ (. - a) / b, name = "Temperature (degC)")
+      sec.axis = ggplot2::sec_axis(~ (. - a) / b, name = "Temperature (degC)")
     ) +
-    labs(x = "Date", color = "Temperature") +
-    theme_classic()
+    ggplot2::labs(x = "Date", color = "Temperature") +
+    ggplot2::theme_classic()
 
   return(p1)
 }
