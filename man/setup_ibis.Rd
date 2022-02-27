@@ -58,6 +58,8 @@ setup_ibis(
 
 \item{nstress}{0: no nitrogen stress, 1: apply nitrogen stress}
 
+\item{imiscanthus0}{0: miscanthus not grown 1: miscanthus grown everywhere}
+
 \item{irotation}{0: none -- 1: w. wheat/fallow -- 2: corn/soy -- 3: corn/corn/soy -- 4: soy/w. wheat/corn -- 5: soy/corn (opposite of 2) -- 6: biomass sorghum/soybean}
 
 \item{iholdsoiln}{0: doesn't save soil inorganic N from restart 1: save inorganic soil N}
@@ -71,8 +73,6 @@ setup_ibis(
 \item{swest}{western longitude for subsetting in/output}
 
 \item{seast}{eastern longitude for subsetting in/output}
-
-\item{imiscanthus}{0: miscanthus not grown 1: miscanthus grown everywhere}
 }
 \value{
 Writes out to ibis.infile

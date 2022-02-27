@@ -14,7 +14,7 @@
 #' @param ihourlyout 0: no hourly output, 1: hourly output
 #' @param isimveg 0: static veg, 1: dynamic veg, 2: dynamic veg-cold start
 #' @param nstress 0: no nitrogen stress, 1: apply nitrogen stress
-#' @param imiscanthus 0: miscanthus not grown 1: miscanthus grown everywhere
+#' @param imiscanthus0 0: miscanthus not grown 1: miscanthus grown everywhere
 #' @param irotation 0: none -- 1: w. wheat/fallow -- 2: corn/soy -- 3: corn/corn/soy -- 4: soy/w. wheat/corn -- 5: soy/corn (opposite of 2) -- 6: biomass sorghum/soybean
 #' @param iholdsoiln 0: doesn't save soil inorganic N from restart 1: save inorganic soil N
 #' @param co2init initial co2 concentration in mol/mol (ex: 0.000400)

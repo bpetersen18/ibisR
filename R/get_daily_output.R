@@ -23,7 +23,7 @@ get_daily_output <- function(filepath, ncvar, pft = NULL, average_spatial = T) {
   lat_vector <- ncdf4::ncvar_get(ncid, varid = "latitude")
 
   # Read time vector
-  date_vector <- as.character(lubridate::as_date(ncdf4::ncvar_get(ncid, varid = "time"), origin = lubridtate::ymd("1749-12-31")))
+  date_vector <- as.character(lubridate::as_date(ncdf4::ncvar_get(ncid, varid = "time"), origin = lubridate::ymd("1749-12-31")))
 
   # Get the number of dimensions
   ndim <- length(dim(matrix))

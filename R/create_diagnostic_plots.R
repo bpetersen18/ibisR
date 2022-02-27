@@ -45,7 +45,7 @@ create_diagnostic_plots <- function(model_path, create_interactive = F, save_dir
                dplyr::if_else(is.null(save_dir), "WeatherPlot.html", paste0(save_dir, "/WeatherPlot.html")))
     
     plai_plt_interactive <- plotly::ggplotly(plai_plt, dynamicTicks = T)
-    htmlwidgets::saveWidget(ploty::as_widget(plai_plt_interactive),
+    htmlwidgets::saveWidget(plotly::as_widget(plai_plt_interactive),
                dplyr::if_else(is.null(save_dir), "PlaiPlot.html", paste0(save_dir, "/PlaiPlot.html")))
     
     adnpp_plt_interactive <- plotly::ggplotly(adnpp_plt, dynamicTicks = T)
