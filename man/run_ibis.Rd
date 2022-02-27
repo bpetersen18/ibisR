@@ -5,7 +5,7 @@
 \title{Run Agro-IBIS and copy model output and restart files}
 \usage{
 run_ibis(
-  model_path,
+  model_path = ".",
   compile_flag = F,
   copy_output_path = NULL,
   copy_restart_path = NULL
@@ -22,4 +22,7 @@ run_ibis(
 }
 \description{
 Run Agro-IBIS and copy model output and restart files
+}
+\author{
+Bryan Petersen - bryan20@iastate.edu
 }

@@ -7,21 +7,21 @@
 setup_ibis(
   model_path,
   file = "ibis_flag.infile",
-  irestart = 1,
+  irestart,
   irstyear,
   iyear0 = 1751,
   nrun,
-  soilcspin = 0,
-  flg_wrestart = 1,
-  iyearout = 1,
-  imonthout = 0,
-  idailyout = 0,
-  ihourlyout = 0,
+  soilcspin,
+  flg_wrestart,
+  iyearout,
+  imonthout,
+  idailyout,
+  ihourlyout,
   isimveg,
-  nstress = 1,
+  nstress,
   imiscanthus0,
   irotation,
-  iholdsoiln = 1,
+  iholdsoiln,
   co2init,
   snorth,
   ssouth,
@@ -79,4 +79,7 @@ Writes out to ibis.infile
 }
 \description{
 Set the ibis.infile
+}
+\author{
+Bryan Petersen - bryan20@iastate.edu
 }
