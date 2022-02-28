@@ -1,12 +1,13 @@
 Package: ibisR
-Title: Runs Agro-IBS and plots output
+Title: Inspect, Read, Edit, and Run "Agro-IBIS"
 Version: 0.0.0.9000
 Authors@R: 
     person("Bryan", "Petersen", email = "bryan20@iastate.edu",
     role = c("aut", "cre"))
 Author: Bryan Petersen [aut, cre]
 Maintainer: Bryan Petersen <bryan20@iastate.edu>
-Description: What the package does (one paragraph).
+Description: The functions in this package inspect, read, edit, and run files
+    for Agro-IBIS.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
