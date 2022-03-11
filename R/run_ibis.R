@@ -55,9 +55,9 @@ run_ibis <- function(model_path = ".", compile_flag = F, copy_output_path = NULL
 
   # Copy output and restart files
   if (!is.null(copy_output_path)) {
-    system(paste0("mkdir -p ", copy_output_path, "&& cp -r ", model_path, "/output", copy_output_path))
+    system(paste0("mkdir -p ", copy_output_path, "&& cp -r ", model_path, "/output ", copy_output_path))
   }
   if (!is.null(copy_restart_path)) {
-    system(paste0("mkdir -p ", copy_restart_path, "&& cp -r ", model_path, "/restart", copy_restart_path))
+    system(paste0("mkdir -p ", copy_restart_path, "&& cp -r ", model_path, "/restart ", copy_restart_path))
   }
 }
