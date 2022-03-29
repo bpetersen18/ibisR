@@ -62,6 +62,8 @@ run_ibis <- function(model_path = ".", compile_flag = F, copy_output_path = NULL
     system(paste0("mkdir -p ", copy_restart_path, "&& cp -R ", model_path, "/restart ", copy_restart_path))
   }
   
-  # Create diagnostic plots
-  ibisR::create_diagnostic_plots(model_path, create_interactive = T, save_dir = copy_output_path)
+  if (diagnostic_plots == T){
+    # Create diagnostic plots
+    ibisR::create_diagnostic_plots(model_path, create_interactive = T, save_dir = copy_output_path)
+  }
 }
