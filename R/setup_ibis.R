@@ -17,7 +17,7 @@
 #' @param imiscanthus0 0: miscanthus not grown 1: miscanthus grown everywhere
 #' @param irotation 0: none -- 1: w. wheat/fallow -- 2: corn/soy -- 3: corn/corn/soy -- 4: soy/w. wheat/corn -- 5: soy/corn (opposite of 2) -- 6: biomass sorghum/soybean
 #' @param iholdsoiln 0: doesn't save soil inorganic N from restart 1: save inorganic soil N
-#' @param co2init initial co2 concentration in mol/mol (ex: 0.000400)
+#' @param co2init initial co2 concentration in mol/mol (ex: 0.000400 is equal to 400 ppm)
 #' @param snorth northern latitude for subsetting in/output
 #' @param ssouth southern latitude for subsetting in/output
 #' @param swest western longitude for subsetting in/output
@@ -29,12 +29,12 @@
 #'
 #' @export
 
-setup_ibis <- function(model_path, file = "ibis_flag.infile", irestart,
-                       irstyear, iyear0 = 1751, nrun, soilcspin,
-                       flg_wrestart, iyearout, imonthout,
-                       idailyout, ihourlyout, isimveg,
-                       nstress, imiscanthus0, irotation, iholdsoiln,
-                       co2init, snorth, ssouth, swest, seast) {
+setup_ibis <- function(model_path, file = "ibis_flag.infile", irestart = 0,
+                       irstyear = 1910, iyear0 = 1751, nrun, soilcspin = 0,
+                       flg_wrestart = 1, iyearout = 1, imonthout = 0,
+                       idailyout = 0, ihourlyout = 0, isimveg = 1,
+                       nstress = 0, imiscanthus0 = 0, irotation = 0, iholdsoiln = 0,
+                       co2init = 0.0004, snorth, ssouth, swest, seast) {
 
   # Get working directory
   wkdir <- getwd()
