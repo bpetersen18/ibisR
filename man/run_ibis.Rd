@@ -8,7 +8,8 @@ run_ibis(
   model_path = ".",
   compile_flag = F,
   copy_output_path = NULL,
-  copy_restart_path = NULL
+  copy_restart_path = NULL,
+  diagnostic_plots = F
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ run_ibis(
 \item{copy_output_path}{Path to copy the output directory.}
 
 \item{copy_restart_path}{Path to copy the restart directory.}
+
+\item{diagnostic_plots}{If set to TRUE, it will create interactive plots in the output directory.}
 }
 \description{
 Run Agro-IBIS and copy model output and restart files

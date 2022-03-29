@@ -7,22 +7,30 @@
 setup_ibis(
   model_path,
   file = "ibis_flag.infile",
-  irestart,
-  irstyear,
+  irestart = 0,
+  irstyear = 1910,
   iyear0 = 1751,
   nrun,
-  soilcspin,
-  flg_wrestart,
-  iyearout,
-  imonthout,
-  idailyout,
-  ihourlyout,
-  isimveg,
-  nstress,
-  imiscanthus0,
-  irotation,
-  iholdsoiln,
-  co2init,
+  soilcspin = 0,
+  flg_wrestart = 1,
+  iyearout = 1,
+  imonthout = 0,
+  idailyout = 0,
+  ihourlyout = 0,
+  isimveg = 1,
+  nstress = 0,
+  isoybean = 0,
+  imaize = 0,
+  iwheat = 0,
+  imiscanthus0 = 0,
+  iswitchgrass0 = 0,
+  ibsorghum = 0,
+  irotation = 0,
+  iholdsoiln = 0,
+  management_prescribed = F,
+  planting_input = "average",
+  cultivar_input = "average",
+  co2init = 4e-04,
   snorth,
   ssouth,
   swest,
@@ -58,13 +66,29 @@ setup_ibis(
 
 \item{nstress}{0: no nitrogen stress, 1: apply nitrogen stress}
 
+\item{isoybean}{0: soybeans not grown 1: soybeans grown everywhere}
+
+\item{imaize}{0: maize not grown 1: maize grown everywhere}
+
+\item{iwheat}{0: wheat not grown 1: spring wheat grown everywhere 2: winter wheat}
+
 \item{imiscanthus0}{0: miscanthus not grown 1: miscanthus grown everywhere}
+
+\item{iswitchgrass0}{0: switchgrass not grown 1: switchgrass grown everywhere}
+
+\item{ibsorghum}{0: biomass sorghum not grown 1: biomass sorghum grown everywhere}
 
 \item{irotation}{0: none -- 1: w. wheat/fallow -- 2: corn/soy -- 3: corn/corn/soy -- 4: soy/w. wheat/corn -- 5: soy/corn (opposite of 2) -- 6: biomass sorghum/soybean}
 
 \item{iholdsoiln}{0: doesn't save soil inorganic N from restart 1: save inorganic soil N}
 
-\item{co2init}{initial co2 concentration in mol/mol (ex: 0.000400)}
+\item{management_prescribed}{If true, used prescribed planting dates & cultivars, as read from maps; if false, use prognostic planting dates and cultivars}
+
+\item{planting_input}{Suffix on the planting date input file name (e.g., 'transient', 'detrended', 'linearized', or 'fixed'), for management_prescribed=true}
+
+\item{cultivar_input}{Suffix on the cultivar input file name (e.g., 'transient', 'fixed'), for management_prescribed=true}
+
+\item{co2init}{initial co2 concentration in mol/mol (ex: 0.000400 is equal to 400 ppm)}
 
 \item{snorth}{northern latitude for subsetting in/output}
 
