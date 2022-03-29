@@ -6,12 +6,13 @@
 #' @param compile_flag If set to TRUE, it will compile the model before running.
 #' @param copy_output_path Path to copy the output directory.
 #' @param copy_restart_path Path to copy the restart directory.
+#' @param diagnostic_plots If set to TRUE, it will create interactive plots in the output directory.
 #' 
 #' @author Bryan Petersen - bryan20@iastate.edu
 #'
 #' @export
 run_ibis <- function(model_path = ".", compile_flag = F, copy_output_path = NULL,
-                     copy_restart_path = NULL) {
+                     copy_restart_path = NULL, diagnostic_plots = F) {
 
    # Get working directory
    wkdir <- getwd()
@@ -60,4 +61,7 @@ run_ibis <- function(model_path = ".", compile_flag = F, copy_output_path = NULL
   if (!is.null(copy_restart_path)) {
     system(paste0("mkdir -p ", copy_restart_path, "&& cp -R ", model_path, "/restart ", copy_restart_path))
   }
+  
+  # Create diagnostic plots
+  ibisR::create_diagnostic_plots(model_path, create_interactive = T, save_dir = copy_output_path)
 }
