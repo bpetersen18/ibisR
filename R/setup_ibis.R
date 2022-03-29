@@ -157,6 +157,12 @@ setup_ibis <- function(model_path, file = "ibis_flag.infile", irestart = 0,
   } else {
     warning("Length of iswitchgrass0 is not equal 1")
   }
+  
+  if (length(ibsorghum) == 1) {
+    lines <- gsub(pattern = "!IBSORGHUM!", replacement = ibsorghum, x = lines)
+  } else {
+    warning("Length of ibsorghum is not equal 1")
+  }
 
   if (length(irotation) == 1) {
     lines <- gsub(pattern = "!IROTATION!", replacement = irotation, x = lines)
