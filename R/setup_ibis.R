@@ -14,9 +14,17 @@
 #' @param ihourlyout 0: no hourly output, 1: hourly output
 #' @param isimveg 0: static veg, 1: dynamic veg, 2: dynamic veg-cold start
 #' @param nstress 0: no nitrogen stress, 1: apply nitrogen stress
+#' @param isoybean 0: soybeans not grown 1: soybeans grown everywhere
+#' @param imaize 0: maize not grown 1: maize grown everywhere
+#' @param iwheat 0: wheat not grown 1: spring wheat grown everywhere 2: winter wheat
 #' @param imiscanthus0 0: miscanthus not grown 1: miscanthus grown everywhere
+#' @param iswitchgrass0 0: switchgrass not grown 1: switchgrass grown everywhere
+#' @param ibsorghum 0: biomass sorghum not grown 1: biomass sorghum grown everywhere
 #' @param irotation 0: none -- 1: w. wheat/fallow -- 2: corn/soy -- 3: corn/corn/soy -- 4: soy/w. wheat/corn -- 5: soy/corn (opposite of 2) -- 6: biomass sorghum/soybean
 #' @param iholdsoiln 0: doesn't save soil inorganic N from restart 1: save inorganic soil N
+#' @param management_prescribed If true, used prescribed planting dates & cultivars, as read from maps; if false, use prognostic planting dates and cultivars
+#' @param planting_input Suffix on the planting date input file name (e.g., 'transient', 'detrended', 'linearized', or 'fixed'), for management_prescribed=true
+#' @param cultivar_input Suffix on the cultivar input file name (e.g., 'transient', 'fixed'), for management_prescribed=true
 #' @param co2init initial co2 concentration in mol/mol (ex: 0.000400 is equal to 400 ppm)
 #' @param snorth northern latitude for subsetting in/output
 #' @param ssouth southern latitude for subsetting in/output
@@ -33,7 +41,10 @@ setup_ibis <- function(model_path, file = "ibis_flag.infile", irestart = 0,
                        irstyear = 1910, iyear0 = 1751, nrun, soilcspin = 0,
                        flg_wrestart = 1, iyearout = 1, imonthout = 0,
                        idailyout = 0, ihourlyout = 0, isimveg = 1,
-                       nstress = 0, imiscanthus0 = 0, irotation = 0, iholdsoiln = 0,
+                       nstress = 0, isoybean = 0, imaize = 0, iwheat = 0,
+                       imiscanthus0 = 0, iswitchgrass0 = 0, ibsorghum = 0,
+                       irotation = 0, iholdsoiln = 0, management_prescribed = F,
+                       planting_input = "average", cultivar_input = "average",
                        co2init = 0.0004, snorth, ssouth, swest, seast) {
 
   # Get working directory
@@ -116,11 +127,35 @@ setup_ibis <- function(model_path, file = "ibis_flag.infile", irestart = 0,
   } else {
     warning("Length of nstress is not equal 1")
   }
+  
+  if (length(isoybean) == 1) {
+    lines <- gsub(pattern = "!ISOYBEAN!", replacement = isoybean, x = lines)
+  } else {
+    warning("Length of isoybean is not equal 1")
+  }
+  
+  if (length(imaize) == 1) {
+    lines <- gsub(pattern = "!IMAIZE!", replacement = imaize, x = lines)
+  } else {
+    warning("Length of imaize is not equal 1")
+  }
+  
+  if (length(iwheat) == 1) {
+    lines <- gsub(pattern = "!IWHEAT!", replacement = iwheat, x = lines)
+  } else {
+    warning("Length of iwheat is not equal 1")
+  }
 
   if (length(imiscanthus0) == 1) {
     lines <- gsub(pattern = "!IMISCANTHUS0!", replacement = imiscanthus0, x = lines)
   } else {
     warning("Length of imiscanthus is not equal 1")
+  }
+  
+  if (length(iswitchgrass0) == 1) {
+    lines <- gsub(pattern = "!ISWITCHGRASS0!", replacement = iswitchgrass0, x = lines)
+  } else {
+    warning("Length of iswitchgrass0 is not equal 1")
   }
 
   if (length(irotation) == 1) {
@@ -133,6 +168,24 @@ setup_ibis <- function(model_path, file = "ibis_flag.infile", irestart = 0,
     lines <- gsub(pattern = "!IHOLDSOILN!", replacement = iholdsoiln, x = lines)
   } else {
     warning("Length of iholdsoiln is not equal 1")
+  }
+  
+  if (length(management_prescribed) == 1) {
+    lines <- gsub(pattern = "!MANAGEMENT_PRESCRIBED!", replacement = management_prescribed, x = lines)
+  } else {
+    warning("Length of management_prescribed is not equal 1")
+  }
+  
+  if (length(planting_input) == 1) {
+    lines <- gsub(pattern = "!PLANTING_INPUT!", replacement = planting_input, x = lines)
+  } else {
+    warning("Length of planting_input is not equal 1")
+  }
+  
+  if (length(cultivar_input) == 1) {
+    lines <- gsub(pattern = "!CULTIVAR_INPUT!", replacement = cultivar_input, x = lines)
+  } else {
+    warning("Length of cultivar_input is not equal 1")
   }
 
   if (length(co2init) == 1) {
