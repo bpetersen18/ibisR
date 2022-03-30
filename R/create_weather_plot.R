@@ -10,6 +10,7 @@
 #' @export
 
 create_weather_plot <- function(model_path) {
+  `%>%` <- magrittr::`%>%`
 
   # Get daily maximum and minimum temperature
   ncvars <- c("tmax", "tmin")
