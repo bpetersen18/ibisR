@@ -12,6 +12,8 @@
 #' @export
 
 create_diagnostic_plots <- function(model_path, create_interactive = F, save_dir = NULL){
+  `%>%` <- magrittr::`%>%`
+  
   # Create weather plot
   weather_plt <- ibisR::create_weather_plot(model_path)
   
