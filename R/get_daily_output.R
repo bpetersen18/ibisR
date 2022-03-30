@@ -31,7 +31,7 @@ get_daily_output <- function(filepath, ncvar, pft = NULL, average_spatial = T) {
   # Get specific pft and adjust dimensions
   if (!is.null(pft)) {
     if (ndim == 4) {
-      matrix <- matrix[, , pft, ]
+      matrix <- matrix[, , pft, , drop = F]
       matrix <- abind::adrop(matrix, drop = 3)
     } else {
       stop("Dimensions of variable are weird")

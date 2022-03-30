@@ -4,10 +4,17 @@
 \alias{create_diagnostic_plots}
 \title{Creates plots that are useful when testing AgroIBS.}
 \usage{
-create_diagnostic_plots(model_path, create_interactive = F, save_dir = NULL)
+create_diagnostic_plots(
+  model_path,
+  pft,
+  create_interactive = F,
+  save_dir = NULL
+)
 }
 \arguments{
 \item{model_path}{Path to the model directory}
+
+\item{pft}{Select the pft of interest}
 
 \item{create_interactive}{Logical, indicating if you want to create interactive plots which will be output has html files}
 

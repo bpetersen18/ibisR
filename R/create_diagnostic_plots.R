@@ -3,6 +3,7 @@
 #' @name create_diagnostic_plots
 #' 
 #' @param model_path Path to the model directory
+#' @param pft Select the pft of interest
 #' @param create_interactive Logical, indicating if you want to create interactive plots which will be output has html files
 #' @param save_dir If create_interactive is TRUE, this is the directory where the interactive plots will be saved.
 #' 
@@ -11,7 +12,7 @@
 #' @author Bryan Petersen - bryan20@iastate.edu
 #' @export
 
-create_diagnostic_plots <- function(model_path, create_interactive = F, save_dir = NULL){
+create_diagnostic_plots <- function(model_path, pft, create_interactive = F, save_dir = NULL){
   `%>%` <- magrittr::`%>%`
   
   # Create weather plot
@@ -19,7 +20,7 @@ create_diagnostic_plots <- function(model_path, create_interactive = F, save_dir
   
   # Get plai data
   plai_tbl <- ibisR::get_daily_output(paste0(model_path, "/output/daily/plai.nc"), "plai",
-                               pft = 16, average_spatial = T) %>% 
+                               pft = pft, average_spatial = T) %>% 
     dplyr::mutate(date = lubridate::ymd(date))
   
   # Plot plai data
@@ -27,7 +28,7 @@ create_diagnostic_plots <- function(model_path, create_interactive = F, save_dir
   
   # Get adnpp data
   adnpp_tbl <- ibisR::get_daily_output(paste0(model_path, "/output/daily/adnpp.nc"), "adnpp",
-                            pft = 16, average_spatial = T) %>% 
+                            pft = pft, average_spatial = T) %>% 
     dplyr::mutate(date = lubridate::ymd(date))
   
   # Plot adnpp data
