@@ -17,6 +17,7 @@ Imports:
         ggplot2,
         htmlwidgets,
         lubridate,
+        magrittr,
         ncdf4,
         ncdump,
         patchwork,
@@ -25,5 +26,8 @@ Imports:
         reshape2,
         stringr
 Suggests: 
+    rmarkdown,
+    knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr

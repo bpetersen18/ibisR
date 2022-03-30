@@ -10,6 +10,8 @@
 #' @export
 
 create_ibis_ts_plot <- function(data_tbl) {
+  `%>%` <- magrittr::`%>%`
+  
   # Convert date from a character to a date
   data_tbl <- data_tbl %>%
     dplyr::mutate(date = lubridate::ymd(date))
