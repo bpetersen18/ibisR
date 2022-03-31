@@ -57,7 +57,7 @@ After you loaded the package, you can edit ibis.infile using the **setup_ibis** 
 
 ```{r setup_ibis}
 setup_ibis(model_path = "~/Agro_IBIS_gridmet", irestart = 0, iyear0 = 1750, nrun = 160,
-           soilcspin = 1, flg_wrestart = 1, iyearout = 1, isimveg = 0, co2init = 0.000200,
+           soilcspin = 1, flg_wrestart = 1, iyearout = 1, isimveg = 1, co2init = 0.000200,
            snorth = 42, ssouth = 42, swest = -93, seast = -93)
 ```
 
@@ -83,7 +83,7 @@ setup_ibis(model_path = "~/Agro_IBIS_gridmet", flg_wrestart = 0, irestart = 1, i
            soilcspin = 0, iyearout = 1, idailyout = 1, co2init = 0.000400, nrun = 5,
            isimveg = 0, imaize = 1, iholdsoiln = 1, snorth = 42, ssouth = 42, swest = -93,
            seast = -93)
-run_ibis(model_path = "~/Agro_IBIS_gridmet", compile_flag = T)
+run_ibis(model_path = "~/Agro_IBIS_gridmet", compile_flag = F)
 
 dmyield <- get_yearly_output(filepath = "~/Agro_IBIS_gridmet/output/yearly/crops.nc",
                              ncvar = "dmyield", pft = 14, average_spatial = T)
