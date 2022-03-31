@@ -4,3 +4,4 @@
 .Ruserdata
 .DS_store
 run_ibis.log
+inst/doc

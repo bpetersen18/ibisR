@@ -1,0 +1,104 @@
+---
+title: "ibisR Introduction"
+author: "Bryan Petersen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+Are you a user of Agro-IBIS? Are you a frequent user of R? Are you hoping to use R to interact with Agro-IBIS? If you answered yes to these questions, the R package **ibisR** will help you edit model settings, read and write model parameters (coming in the near future), and plot output. The package is currently being developed and is available at: https://github.com/bpetersen18/ibisR
+
+## Background information
+
+To run the code in this vignette, you need to have access to the latest ISU version of Agro-IBIS. If you need access to Agro-IBIS, please email: bryan20@iastate. Before you use this package, I also recommend that you know how to run Agro-IBIS. You can use the User_Guide.pdf for reference.
+
+## Installing 'ibisR'
+You can install the development version of ibisR from GitHub with:
+
+```{r install_ibisR, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("bpetersen18/ibisR")
+```
+
+## R functions for Agro-IBIS
+
+The main functions in the package are (for now):
+
+* **setup_ibis** edits the ibis.infile
+* **run_ibis** runs Agro-IBIS, copies output and restart files, and can create diagnostic plots
+* **get_daily_output** reads daily output into R dataframe
+* **get_yearly_output** reads yearly output into R dataframe
+* **create_ibis_ts_plot** creates a timeseries plot from output from get_*_output functions
+* **create_weather_plot** creates a plot that shows daily max and min temperature and precipitation
+* **create_diagnostic_plots** creates a few plots that can be useful when testing Agro-IBIS
+
+# Using 'ibisR'
+
+## Editing ibis.infile
+Once you have installed ibisR, you will need to load the package using the library function or preface each ibisR function with "ibisR::"
+
+```{r load_package}
+library(ibisR)
+```
+
+After you loaded the package, you can edit ibis.infile using the **setup_ibis** function. The model path will be the location of Agro-IBIS. The other required flags are nrun (number of years to simulate), ssouth, swest, and seast (northern/southern/western/eastern most extent of simulation domain). The other flags have a default setting, but can be changed if needed. In this example, we will setup the model to do a spin-up run.
+
+```{r setup_ibis}
+setup_ibis(model_path = "~/Agro_IBIS_gridmet", irestart = 0, iyear0 = 1750, nrun = 160,
+           soilcspin = 1, flg_wrestart = 1, iyearout = 1, isimveg = 0, co2init = 0.000200,
+           snorth = 42, ssouth = 42, swest = -93, seast = -93)
+```
+
+## Running model
+
+Now you can run the model and copy the model output and restart files. In this example, I not copying the output and restart files. 
+
+```{r run_ibis}
+run_ibis(model_path = "~/Agro_IBIS_gridmet", compile_flag = T)
+```
+
+## Get model output
+
+Simulate a corn and soybean rotation from 1910 until 2015. Then simulate continuous corn from 2015 until 2020.
+```{r get_model_output}
+setup_ibis(model_path = "~/Agro_IBIS_gridmet", irestart = 1, irstyear = 1910, nrun = 105,
+           soilcspin = 0, flg_wrestart = 1, iyearout = 1, co2init = 0.000300,
+           isimveg = 0, irotation = 2, iholdsoiln = 1, snorth = 42, 
+           ssouth = 42, swest = -93, seast = -93)
+run_ibis(model_path = "~/Agro_IBIS_gridmet", compile_flag = F)
+
+setup_ibis(model_path = "~/Agro_IBIS_gridmet", flg_wrestart = 0, irestart = 1, irstyear = 2015,
+           soilcspin = 0, iyearout = 1, idailyout = 1, co2init = 0.000400, nrun = 5,
+           isimveg = 0, imaize = 1, iholdsoiln = 1, snorth = 42, ssouth = 42, swest = -93,
+           seast = -93)
+run_ibis(model_path = "~/Agro_IBIS_gridmet", compile_flag = T)
+
+dmyield <- get_yearly_output(filepath = "~/Agro_IBIS_gridmet/output/yearly/crops.nc",
+                             ncvar = "dmyield", pft = 14, average_spatial = T)
+
+print(dmyield)
+```
+
+## Plot model output
+
+Create a timeseries plot of yield and create the diagnostic plots.
+
+```{r}
+create_ibis_ts_plot(dmyield)
+
+create_diagnostic_plots(model_path = "~/Agro_IBIS_gridmet", pft = 14, create_interactive = T,
+                        save_dir = "~/Desktop")
+```
+
